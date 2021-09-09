@@ -59,10 +59,7 @@ public class LocalFirstRaftClient implements Closeable {
     mLocalClientId = localClientId;
     mEnableRemoteClient = configuration.getBoolean(
         PropertyKey.MASTER_EMBEDDED_JOURNAL_WRITE_REMOTE_ENABLED);
-    if (mEnableRemoteClient && !configuration.getBoolean(
-        PropertyKey.MASTER_EMBEDDED_JOURNAL_WRITE_LOCAL_FIRST_ENABLED)) {
-      ensureClient();
-    }
+    ensureClient();
   }
 
   /**
@@ -74,11 +71,7 @@ public class LocalFirstRaftClient implements Closeable {
    */
   public CompletableFuture<RaftClientReply> sendAsync(Message message,
       TimeDuration timeout) throws IOException {
-    if (!mEnableRemoteClient || mClient == null) {
-      return sendLocalRequest(message, timeout);
-    } else {
-      return sendRemoteRequest(message);
-    }
+    return sendRemoteRequest(message);
   }
 
   private CompletableFuture<RaftClientReply> sendLocalRequest(Message message,

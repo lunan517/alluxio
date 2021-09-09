@@ -375,12 +375,6 @@ public class RaftJournalSystem extends AbstractJournalSystem {
     RaftServerConfigKeys.LeaderElection.setLeaderStepDownWaitTime(properties,
         TimeDuration.valueOf(Long.MAX_VALUE, TimeUnit.MILLISECONDS));
 
-    /*
-     * Soft disable RaftServer's internal retry cache.
-     */
-    RaftServerConfigKeys.RetryCache.setExpiryTime(properties,
-        TimeDuration.valueOf(0, TimeUnit.MILLISECONDS));
-
     long messageSize = ServerConfiguration.global().getBytes(
         PropertyKey.MASTER_EMBEDDED_JOURNAL_TRANSPORT_MAX_INBOUND_MESSAGE_SIZE);
     GrpcConfigKeys.setMessageSizeMax(properties,
